@@ -1,4 +1,4 @@
-FROM ghcr.io/ansible-community/community-ee-minimal:2.20.0-1
+FROM ghcr.io/ansible-community/community-ee-minimal:2.20.1-1
 
 USER 0
 
