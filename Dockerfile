@@ -1,4 +1,4 @@
-FROM ghcr.io/ansible-community/community-ee-minimal:2.20.0-1
+FROM ghcr.io/ansible-community/community-ee-minimal:2.20.1-1
 
 # Do not revert to user 1000 as in the base image because it causes problems
 # with GitHub Actions.
