@@ -3,8 +3,7 @@ name: Build image
 on:
   pull_request:
   push:
-    branches:
-      - main
+  workflow_dispatch:
 
 # Cancel previous runs when a new commit is pushed.
 concurrency:
@@ -52,6 +51,7 @@ jobs:
           # https://github.com/docker/metadata-action#tags-input
           tags: |
             type=ref,event=pr
+            type=ref,event=branch
             type=raw,value=${{ env.version }},enable={{ is_default_branch }}
 
       - name: Build and push
