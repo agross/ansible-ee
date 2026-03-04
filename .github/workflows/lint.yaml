@@ -1,7 +1,6 @@
 name: Lint
 
 on:
-  pull_request:
   push:
 
 # Cancel previous runs when a new commit is pushed.
@@ -13,10 +12,6 @@ jobs:
   ansible-ee-version:
     name: Ansible EE Version
     runs-on: ubuntu-latest
-
-    if: >-
-      github.event_name != 'pull_request' ||
-      github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     env:
       # renovate: docker=ghcr.io/ansible-community/community-ee-minimal
