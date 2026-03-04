@@ -16,5 +16,6 @@ RUN dnf install --assumeyes \
                 wget \
                 python3-netaddr \
                 python3-passlib \
-                python3-bcrypt-4.3.0 && \
+                python3-bcrypt-4.3.0 \
+                python3-jmespath && \
     dnf clean all
