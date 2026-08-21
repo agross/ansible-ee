@@ -15,7 +15,7 @@ jobs:
 
     env:
       # renovate: docker=ghcr.io/ansible-community/community-ee-minimal
-      version: 2.20.6-1
+      version: 2.21.3-1
 
     steps:
       - name: Verify Ansible version matches image version
