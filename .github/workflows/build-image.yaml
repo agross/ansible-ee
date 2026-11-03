@@ -19,8 +19,8 @@ jobs:
       packages: write
 
     env:
-      # renovate: docker=ghcr.io/ansible-community/community-ee-minimal
-      version: 2.21.5-1
+      # renovate: pypi=ansible-core
+      version: 2.22.0
 
     steps:
       - name: Get latest code
@@ -51,7 +51,7 @@ jobs:
           tags: |
             type=ref,event=pr
             type=ref,event=branch
-            type=raw,value=${{ env.version }},enable={{ is_default_branch }}
+            type=raw,value=${{ env.version }}-1,enable={{ is_default_branch }}
 
       - name: Build and push
         uses: docker/build-push-action@v7

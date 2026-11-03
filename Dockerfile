@@ -5,6 +5,10 @@ FROM ghcr.io/ansible-community/community-ee-minimal:2.21.5-1
 # https://github.com/actions/checkout/issues/956
 USER 0
 
+# renovate: pypi=ansible-core
+ARG ANSIBLE_CORE_VERSION=2.22.0
+RUN python3 -m pip install --no-cache-dir "ansible-core==${ANSIBLE_CORE_VERSION}"
+
 # The following packages allow this image to be used as an ambient container
 # running GitHub Actions.
 #

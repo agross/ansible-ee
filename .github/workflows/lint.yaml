@@ -14,19 +14,24 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # renovate: docker=ghcr.io/ansible-community/community-ee-minimal
-      version: 2.21.5-1
+      # renovate: pypi=ansible-core
+      version: 2.22.0
 
     steps:
+      - name: Get latest code
+        uses: actions/checkout@v7.0.1
+
+      - name: Build image
+        run: docker build --tag ansible-ee:test .
+
       - name: Verify Ansible version matches image version
         run: |
           expect="${{ env.version }}"
-          expect="${expect%%-*}"
 
           actual="$(docker container \
                            run \
                            --rm \
-                           "ghcr.io/ansible-community/community-ee-minimal:${{ env.version }}" \
+                           ansible-ee:test \
                            ansible --version |
                     grep --fixed-strings 'ansible [core ')"
           actual="${actual##*core }"
