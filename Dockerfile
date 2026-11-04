@@ -1,13 +1,7 @@
-FROM ghcr.io/ansible-community/community-ee-minimal:2.21.5-1
-
-# Do not revert to user 1000 as in the base image because it causes problems
-# with GitHub Actions.
-# https://github.com/actions/checkout/issues/956
-USER 0
+FROM registry.fedoraproject.org/fedora-minimal:43
 
 # renovate: pypi=ansible-core
 ARG ANSIBLE_CORE_VERSION=2.22.0
-RUN python3 -m pip install --no-cache-dir "ansible-core==${ANSIBLE_CORE_VERSION}"
 
 # The following packages allow this image to be used as an ambient container
 # running GitHub Actions.
@@ -18,8 +12,17 @@ RUN python3 -m pip install --no-cache-dir "ansible-core==${ANSIBLE_CORE_VERSION}
 RUN dnf install --assumeyes \
                 git \
                 wget \
+                openssh-clients \
+                sshpass \
+                tar \
+                python3-pip \
                 python3-netaddr \
                 python3-passlib \
                 python3-bcrypt-4.3.0 \
                 python3-jmespath && \
-    dnf clean all
+    dnf clean all && \
+    python3 -m venv --system-site-packages /opt/ansible && \
+    /opt/ansible/bin/pip install --no-cache-dir "ansible-core==${ANSIBLE_CORE_VERSION}" ansible-runner && \
+    test "$(/opt/ansible/bin/ansible --version | sed -n '1p')" = "ansible [core ${ANSIBLE_CORE_VERSION}]"
+
+ENV PATH="/opt/ansible/bin:${PATH}"
