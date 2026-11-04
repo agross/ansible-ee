@@ -8,12 +8,17 @@
     ":rebaseStalePrs",
     ":semanticCommitsDisabled"
   ],
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "customManagers": [
     {
       "description": "Magic comments",
       "customType": "regex",
-      "managerFilePatterns": ["/(^|/).+\\.(ya?ml|j2)$/", "/(^|/)Dockerfile$/"],
+      "managerFilePatterns": [
+        "/(^|/).+\\.(ya?ml|j2)$/",
+        "/(^|/)Dockerfile$/"
+      ],
       "matchStrings": [
         "# renovate: (?<datasource>[a-z-.]+?)=(?<packageName>.+?)(?: depName=(?<depName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?\\w+?[:=]\\s*(?<currentValue>.+?)\\s",
         "# renovate: (?<datasource>pypi)(?: depName=(?<depName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?(?<packageName>\\w+?)==\\s*(?<currentValue>.+?)\\s",
