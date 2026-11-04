@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Get latest code
         uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
 
       - name: Read Ansible version
         id: ansible
@@ -67,6 +69,24 @@ jobs:
         run: |
           gh api "repos/ansible/ansible/releases/tags/v${version}" \
             --jq '"Ansible release: " + .html_url + "\n\n" + .body' > "$RUNNER_TEMP/ansible-release-notes.md"
+
+      - name: Add repository commits to release notes
+        if: steps.release.outputs.tag != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          previous=$(gh release list --exclude-drafts --exclude-pre-releases --limit 1 \
+            --json tagName --jq '.[0].tagName // empty')
+          if [[ -n "$previous" ]]; then
+            range="${previous}..HEAD"
+          else
+            range=HEAD
+          fi
+          {
+            printf '\n\n## Repository commits\n\n'
+            git log "$range" --format="- %s ([%h](${REPOSITORY_URL}/commit/%H))"
+          } >> "$RUNNER_TEMP/ansible-release-notes.md"
 
       - name: Extract metadata from build
         id: meta
