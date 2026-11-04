@@ -16,6 +16,7 @@ RUN dnf install --assumeyes \
                 sshpass \
                 tar \
                 python3-pip \
+                python3-pyyaml \
                 python3-netaddr \
                 python3-passlib \
                 python3-bcrypt-4.3.0 \
@@ -23,6 +24,7 @@ RUN dnf install --assumeyes \
     dnf clean all && \
     python3 -m venv --system-site-packages /opt/ansible && \
     /opt/ansible/bin/pip install --no-cache-dir "ansible-core==${ANSIBLE_CORE_VERSION}" ansible-runner && \
-    test "$(/opt/ansible/bin/ansible --version | sed -n '1p')" = "ansible [core ${ANSIBLE_CORE_VERSION}]"
+    test "$(/opt/ansible/bin/ansible --version | sed -n '1p')" = "ansible [core ${ANSIBLE_CORE_VERSION}]" && \
+    /opt/ansible/bin/python -c 'import yaml; assert yaml.__with_libyaml__, "PyYAML requires libyaml support"'
 
 ENV PATH="/opt/ansible/bin:${PATH}"
