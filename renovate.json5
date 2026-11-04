@@ -11,6 +11,23 @@
   "labels": [
     "dependencies"
   ],
+  "customDatasources": {
+    "fedora-stable": {
+      "defaultRegistryUrlTemplate": "https://endoflife.date/api/fedora.json",
+      "transformTemplates": [
+        "{\"releases\": $[releaseDate <= $substring($now(), 0, 10)].{\"version\": cycle, \"releaseTimestamp\": releaseDate}}"
+      ]
+    }
+  },
+  "packageRules": [
+    {
+      "description": "Only suggest released Fedora versions, not Rawhide",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["registry.fedoraproject.org/fedora-minimal"],
+      "overrideDatasource": "custom.fedora-stable",
+      "overridePackageName": "fedora"
+    }
+  ],
   "customManagers": [
     {
       "description": "Magic comments",
