@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-minimal:43
+FROM registry.fedoraproject.org/fedora-minimal:46
 
 # renovate: pypi=ansible-core
 ARG ANSIBLE_CORE_VERSION=2.22.0
