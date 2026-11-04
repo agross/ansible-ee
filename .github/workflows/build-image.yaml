@@ -100,4 +100,5 @@ jobs:
           gh release create "$RELEASE_TAG" \
             --target "$RELEASE_COMMIT" \
             --title "$RELEASE_TAG" \
+            --generate-notes \
             --notes-file "$RUNNER_TEMP/ansible-release-notes.md"
